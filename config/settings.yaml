@@ -1,0 +1,60 @@
+# Office Account Reconciliation — configurable business rules
+# Section 9 of the design is still pending Finance / Branch Operations.
+# These defaults let the pipeline run; swap them when the real masters arrive.
+
+tat_days: 7
+amount_tolerance: 0.01
+due_by_business_day: 5
+
+# Credits / reversals are identified from Txn Type. Amounts may be signed or unsigned.
+credit_txn_types:
+  - CREDIT
+  - CR
+  - C
+  - REFUND
+reversal_txn_types:
+  - REVERSAL
+  - REV
+  - DR
+  - D
+  - DEBIT
+
+# POINTING (OAP) reversals must carry Original Credit Ref.; BASIC is more lenient.
+require_original_credit_ref_for_pointing: true
+
+# Placeholder nine office accounts (exact codes are a pending Finance decision).
+office_accounts:
+  - code: OA1001
+    name: Sundry Credit - Customer Refunds
+    type: BASIC
+  - code: OA1002
+    name: Unclaimed Customer Credits
+    type: BASIC
+  - code: OA1003
+    name: Branch Clearing Differences
+    type: BASIC
+  - code: OA1004
+    name: ATM Cash Variance
+    type: BASIC
+  - code: OA1005
+    name: Fee Reversal Suspense
+    type: BASIC
+  - code: OA1006
+    name: Pointing - Outward Clearing
+    type: POINTING
+  - code: OA1007
+    name: Pointing - Inward Returns
+    type: POINTING
+  - code: OA1008
+    name: Pointing - Inter-branch
+    type: POINTING
+  - code: OA1009
+    name: Pointing - Card Chargeback
+    type: POINTING
+
+# Documented TAT exceptions: these references are not flagged OVERDUE.
+# Add rows here or maintain data/input/tat_exceptions.xlsx with the same columns.
+tat_exceptions:
+  - reference_no: REF-EXC-001
+    reason: Documented legal hold
+    expiry_date: "2026-12-31"
